@@ -103,7 +103,7 @@ class PygameViewer(_AbstractPygameViewer):
 
     def close(self):
         pygame.display.quit()
-        pygame.quit()
+        #pygame.quit()
 
 
 class BreakoutConfiguration(object):
@@ -112,12 +112,7 @@ class BreakoutConfiguration(object):
                  brick_cols: int = 3,
                  paddle_width: int = 80,
                  paddle_height: int = 10,
-                 paddle_speed: int = 25,#10,
-
-                 #paddle_width: int = 80,
-                 #paddle_height: int = 10,
-                 #paddle_speed: int = 10,
-
+                 paddle_speed: int = 10,
                  brick_width: int = 60,
                  brick_height: int = 12,
                  brick_xdistance: int = 20,
@@ -135,10 +130,10 @@ class BreakoutConfiguration(object):
         assert brick_cols >= 3, "The number of columns must be at least three."
         assert brick_rows >= 1, "The number of columns must be at least three."
         assert fire_enabled or ball_enabled, "Either fire or ball must be enabled."
-        self._brick_rows = 1#brick_rows
+        self._brick_rows = brick_rows
         self._brick_cols = brick_cols
-        self._paddle_width = paddle_width#/2
-        self._paddle_height = paddle_height#*2
+        self._paddle_width = paddle_width
+        self._paddle_height = paddle_height
         self._paddle_speed = paddle_speed
         self._brick_width = brick_width
         self._brick_height = brick_height
@@ -155,8 +150,8 @@ class BreakoutConfiguration(object):
         self._fire_enabled = fire_enabled
         self._ball_enabled = ball_enabled
 
-        self.init_ball_speed_x = 2#2
-        self.init_ball_speed_y = 3#5
+        self.init_ball_speed_x = 2
+        self.init_ball_speed_y = 5
         self.accy = 1.00
 
     @property
@@ -174,11 +169,9 @@ class BreakoutConfiguration(object):
     @property
     def n_paddle_x(self):
         return self.win_width // self._resolution_x + 1
-
     @property
     def n_paddleup_x(self):
         return self.win_width // self._resolution_x + 1
-
     @property
     def n_ball_y(self):
         return self.win_height // self._resolution_y + 1
@@ -307,7 +300,7 @@ class Brick(PygameDrawable):
         self.xdistance = xdistance
 
         self.x = (self.width+self.xdistance)*i+self.xdistance
-        self.y = 70+(self.height+8)*j
+        self.y = 200+(self.height+8)*j
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
     def draw_on_screen(self, screen):
@@ -321,8 +314,8 @@ class BrickGrid(PygameDrawable):
                  brick_width: int,
                  brick_height: int,
                  brick_xdistance: int):
-        self.brick_cols = 0#brick_cols
-        self.brick_rows = 0#brick_rows
+        self.brick_cols = brick_cols
+        self.brick_rows = brick_rows
         self.brick_width = brick_width
         self.brick_height = brick_height
         self.brick_xdistance = brick_xdistance
@@ -358,12 +351,12 @@ class Ball(PygameDrawable):
         if breakout_config.ball_enabled:
             _initial_ball_x = self.config.win_width // 2
             _initial_ball_y = self.config.win_height - 100 - self.config._ball_radius
-            self.x = _initial_ball_x
-            self.y = _initial_ball_y
             ran = random.uniform(-0.75, 0.75)
-            self.speed_x = self.config.init_ball_speed_x+ran
-            self.speed_y = self.config.init_ball_speed_y+ran
-            # RandomEventGenerator.perturbate_ball_speed_after_paddle_hit(self)
+            ran1=random.randint(0,1)
+            self.x = _initial_ball_x#+ran1
+            self.y = _initial_ball_y+ran1*(-230)
+            self.speed_x = self.config.init_ball_speed_x
+            self.speed_y = self.config.init_ball_speed_y
             self._radius = self.config.ball_radius
         else:
             self.x = 0
@@ -417,8 +410,8 @@ class Ball(PygameDrawable):
         pygame.draw.circle(screen, orange, [int(self.x), int(self.y)], self.radius, 0)
 
     def update(self):
-        self.x += self.speed_x#/1.5#david
-        self.y += self.speed_y#/2#david
+        self.x += self.speed_x
+        self.y += self.speed_y
 
 
 class Paddle(PygameDrawable):
@@ -429,7 +422,7 @@ class Paddle(PygameDrawable):
         _initial_paddle_x = self.config.win_width // 2
         _initial_paddle_y = self.config.win_height - 20
         self.x = _initial_paddle_x
-        self.y = -0+_initial_paddle_y
+        self.y = _initial_paddle_y
 
     @property
     def width(self):
@@ -462,6 +455,7 @@ class Paddle(PygameDrawable):
             self.x = 0
         if self.x > self.config.win_width - self.width:
             self.x = self.config.win_width - self.width
+
 class Paddleup(PygameDrawable):
 
     def __init__(self, breakout_config: BreakoutConfiguration):
@@ -503,7 +497,6 @@ class Paddleup(PygameDrawable):
             self.x = 0
         if self.x > self.config.win_width - self.width:
             self.x = self.config.win_width - self.width
-
 
 class Bullet(PygameDrawable):
 
@@ -587,7 +580,6 @@ class BreakoutState(object):
 
         return {
             "paddle_x": paddle_x,
-            "paddleup_x": paddleup_x,
             "ball_x": ball_x,
             "ball_y": ball_y,
             "ball_x_speed": ball_y_speed,
@@ -673,10 +665,6 @@ class BreakoutState(object):
                     ball.speed_x = 5
                     RandomEventGenerator.perturbate_ball_speed_after_paddle_hit(self)
 
-            #added by david init
-            self.score += self.config.brick_reward
-            reward += self.config.brick_reward
-            #added by david end
             ball.speed_y = - abs(ball.speed_y)
 
 # for paddle
@@ -726,7 +714,6 @@ class BreakoutState(object):
 
             ball.speed_y =  abs(ball.speed_y)
 
-
         for brick in brick_grid.bricks.values():
             if brick.rect.colliderect(ball_rect):
                 self.score += self.config.brick_reward
@@ -757,12 +744,7 @@ class BreakoutState(object):
         reward += self.config.step_reward
 
         # ball out
-        #reward += self.config.game_over_reward if self.ball.y > self.config.win_height - self.ball.radius else 0
-        if self.ball.y > self.config.win_height - self.ball.radius:
-            reward += self.config.game_over_reward  
-        else:
-            reward +=0
-
+        reward += self.config.game_over_reward if self.ball.y > self.config.win_height - self.ball.radius else 0
         # time out
         reward += self.config.game_over_reward if self._steps > self.config.horizon else 0.0
 
@@ -770,10 +752,10 @@ class BreakoutState(object):
 
     def is_finished(self):
         end1 = self.ball.y > self.config.win_height - self.ball.radius
-        end2 = self.ball.y < 12 + self.ball.radius
-        #end2 = self.brick_grid.is_empty()
+        end1up = self.ball.config.ball_enabled and self.ball.y < 12 + self.ball.radius
+        end2 = self.brick_grid.is_empty()
         end3 = self._steps > self.config.horizon
-        return end1 or end2 or end3
+        return end1 or end3 or end1up or end2 
 
 
 class RandomEventGenerator:
@@ -805,7 +787,6 @@ class RandomEventGenerator:
             state.ball.speed_x = min(state.ball.speed_x, 6) * sign
             state.ball.speed_x = max(state.ball.speed_x, 0.5) * sign
             # print("random ball_speed_x = %.2f" %self.ball_speed_x)
-
     @classmethod
     def perturbate_ball_speed_after_paddleup_hit(cls, state: BreakoutState):
         if not state.config.deterministic:
@@ -818,6 +799,7 @@ class RandomEventGenerator:
             state.ball.speed_x = min(state.ball.speed_x, 6) * sign
             state.ball.speed_x = max(state.ball.speed_x, 0.5) * sign
             # print("random ball_speed_x = %.2f" %self.ball_speed_x)
+
 class Breakout(gym.Env, ABC):
     """A generic Breakout env. The feature space must be define in subclasses."""
 
@@ -840,10 +822,9 @@ class Breakout(gym.Env, ABC):
         self._ball_dir_space = Discrete(self.config.n_ball_dir)
         self._bricks_matrix_space = MultiBinary((self.config._brick_rows, self.config._brick_cols))
 
-    def step(self, action: int):#, action2: int):
+    def step(self, action: int):
         command = Command(action)
-        # command2 = Command(action2)
-        reward = self.state.step(command)#,command2)
+        reward = self.state.step(command)
         obs = self.observe(self.state)
         is_finished = self.state.is_finished()
         info = {}
@@ -851,13 +832,6 @@ class Breakout(gym.Env, ABC):
 
     def reset(self):
         self.state = BreakoutState(self.config)
-        # for brick in self.state.brick_grid.bricks.values():
-        #     #if brick.rect.colliderect(bullet_rect):
-        #         self.state.remove_brick_at_position((brick.i, brick.j))
-        #         #reward += self.config.brick_reward
-        #         #self.score += self.config.brick_reward
-        #         #self.bullet.reset()
-        #         #break
         if self.viewer is not None:
             self.viewer.reset(self.state)
         return self.observe(self.state)
@@ -882,7 +856,7 @@ class Breakout(gym.Env, ABC):
 
     def play(self):
         self.reset()
-        self.render()
+        self.render(Close=True)
         quitted = False
         while not quitted:
             pygame.time.wait(10)
@@ -902,4 +876,4 @@ class Breakout(gym.Env, ABC):
 
             _, _, done, _ = self.step(cmd)
             if done: self.reset()
-            self.render()
+            self.render(Close=True)

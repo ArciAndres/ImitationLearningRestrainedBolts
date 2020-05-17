@@ -12,8 +12,8 @@ from datetime import datetime
 
 from gym.wrappers import Monitor
 
-from gym_breakout_pygame2.breakout_env import BreakoutConfiguration
-from gym_breakout_pygame2.wrappers.dict_space import BreakoutDictSpace
+from gym_breakout_pygame.breakout_env import BreakoutConfiguration
+from gym_breakout_pygame.wrappers.dict_space import BreakoutDictSpace
 
 
 def parse_arguments():
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     config = BreakoutConfiguration(
         brick_rows=args.rows,
         brick_cols=args.columns,
-        fire_enabled=True,#args.fire,
+        fire_enabled=args.fire,
         ball_enabled=not args.disable_ball,
     )
     env = BreakoutDictSpace(config)
@@ -55,5 +55,4 @@ if __name__ == '__main__':
     if args.random:
         _play_randomly(env)
     else:
-        # _play_randomly(env)
         env.play()

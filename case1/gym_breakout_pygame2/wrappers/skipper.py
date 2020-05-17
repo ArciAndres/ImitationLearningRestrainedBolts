@@ -27,8 +27,8 @@ class BreakoutSkipper(Breakout, ABC):
         self._previous_obs = obs
         return obs
 
-    def step(self, action: int):#, action2: int):
-        obs, reward, is_finished, info = super().step(action)#,action2)
+    def step(self, action: int):
+        obs, reward, is_finished, info = super().step(action)
         while self.compare(obs, self._previous_obs) and not is_finished:
             next_obs, next_reward, next_is_finished, next_info = super().step(action)
             obs = next_obs

@@ -80,7 +80,7 @@ def run_expert(arguments, configuration):
 
     config = BreakoutConfiguration(brick_rows=arguments.rows, brick_cols=arguments.cols,
                                    brick_reward=arguments.brick_reward, step_reward=arguments.step_reward,
-                                   ball_enabled=True, fire_enabled=False)#ball_enabled=False, fire_enabled=True)
+                                   ball_enabled=False, fire_enabled=True)#ball_enabled=False, fire_enabled=True)
     env = make_env(config, arguments.output_dir, arguments.goal_reward)
 
     np.random.seed(arguments.seed)
