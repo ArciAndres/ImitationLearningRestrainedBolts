@@ -82,8 +82,8 @@ def run_expert(arguments, configuration):
     agent_dir.mkdir(parents=True, exist_ok=False)
     #case
     if arguments.case==1:
-        ball_enabled_=True
-        fire_enabled_=False
+        ball_enabled_=False
+        fire_enabled_=True
     else:
         ball_enabled_=False
         fire_enabled_=True

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-
+#Modified by: David Esteban Imbajoa ruiz 2020
+#imbajoaruiz.1922212@studenti.uniroma1.it
 __title__ = 'gym_breakout_pygame'
 __description__ = 'Gym Breakout environment using Pygame'
 __url__ = 'https://github.com/whitemech/gym-breakout-pygame.git'
