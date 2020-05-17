@@ -80,10 +80,16 @@ def run_expert(arguments, configuration):
     if arguments.overwrite:
         shutil.rmtree(arguments.output_dir, ignore_errors=True)
     agent_dir.mkdir(parents=True, exist_ok=False)
-
+    #case
+    if arguments.case==1:
+        ball_enabled_=True
+        fire_enabled_=False
+    else:
+        ball_enabled_=False
+        fire_enabled_=True
     config = BreakoutConfiguration(brick_rows=arguments.rows, brick_cols=arguments.cols,
                                    brick_reward=arguments.brick_reward, step_reward=arguments.step_reward,
-                                   ball_enabled=False, fire_enabled=True,secondlearner=False)#ball_enabled=False, fire_enabled=True)
+                                   ball_enabled=ball_enabled_, fire_enabled=fire_enabled_,secondlearner=False)#ball_enabled=False, fire_enabled=True)
     env = make_env(config, arguments.output_dir, arguments.goal_reward)
 
     np.random.seed(arguments.seed)

@@ -35,6 +35,7 @@ def parse_args():
     parser.add_argument("--expert-config", type=str, default="breakout/expert_config.yaml", help="RL configuration for the expert.")
     parser.add_argument("--learner-config", type=str, default="breakout/learner_config.yaml", help="RL configuration for the learner.")
     parser.add_argument("--learner2-config", type=str, default="breakout/learner2_config.yaml", help="RL configuration for the learner2.")
+    parser.add_argument("--case", type=int, default=2, help="case 1:1, case 2:2.")
     return parser.parse_args()
 
 
@@ -43,6 +44,7 @@ def main(arguments):
     expert_config = Map(yaml.safe_load(open(arguments.expert_config)))
     learner_config = Map(yaml.safe_load(open(arguments.learner_config)))
     learner2_config = Map(yaml.safe_load(open(arguments.learner2_config)))
+
     print("Run the expert.")
     run_expert(arguments, expert_config)
 
@@ -55,15 +57,16 @@ def main(arguments):
     print("Running the learner.")
     run_learner(arguments, learner_config, dfa)
 
+    if arguments.case==2:
     #aproach
-    print("Learn the automaton from traces.")
-    dfa2 = learn2_dfa(arguments)
-    dfa2_dot_file = os.path.join(arguments.output_dir, "learned2_automaton")
-    dfa2.to_dot(dfa2_dot_file)
-    print("Check the file {}.svg".format(dfa2_dot_file))
+        print("Learn the automaton from learner 1 traces.")
+        dfa2 = learn2_dfa(arguments)
+        dfa2_dot_file = os.path.join(arguments.output_dir, "learned2_automaton")
+        dfa2.to_dot(dfa2_dot_file)
+        print("Check the file {}.svg".format(dfa2_dot_file))
 
-    print("Running the learner.")
-    run_learner2(arguments, learner2_config, dfa2)
+        print("Running the learner.")
+        run_learner2(arguments, learner2_config, dfa2)
 
 if __name__ == '__main__':
     arguments = parse_args()

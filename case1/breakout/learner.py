@@ -77,10 +77,22 @@ def run_learner(arguments, configuration, dfa: pythomata.dfa.DFA):
     shutil.rmtree(agent_dir, ignore_errors=True)
     agent_dir.mkdir(parents=True, exist_ok=False)
 
+        #case
+    if arguments.case==1:
+        ball_enabled_=True
+        fire_enabled_=False
+        output_dir_=None
+        secondlearner_=True
+    else:
+        ball_enabled_=True
+        fire_enabled_=False
+        output_dir_=arguments.output_dir
+        secondlearner_=False
+
     config = BreakoutConfiguration(brick_rows=arguments.rows, brick_cols=arguments.cols,
                                    brick_reward=arguments.brick_reward, step_reward=arguments.step_reward,
-                                   fire_enabled=False, ball_enabled=True,secondlearner=False)
-    env = make_env_from_dfa(config, dfa,output_dir=arguments.output_dir)
+                                   fire_enabled=fire_enabled_, ball_enabled=ball_enabled_,secondlearner=secondlearner_)
+    env = make_env_from_dfa(config, dfa,output_dir=output_dir_)
 
     np.random.seed(arguments.seed)
     env.seed(arguments.seed)
@@ -111,6 +123,6 @@ def run_learner(arguments, configuration, dfa: pythomata.dfa.DFA):
     plot_history(history, agent_dir)
 
     agent = Agent.load(agent_dir / "checkpoints" / "agent.pkl")
-    agent.test(Monitor(env, agent_dir / "videos"), nb_episodes=5, visualize=True)
+    agent.test(Monitor(env, agent_dir / "videos"), nb_episodes=10, visualize=True)
 
     env.close()
