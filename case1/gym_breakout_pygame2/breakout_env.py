@@ -126,7 +126,8 @@ class BreakoutConfiguration(object):
                  fire_enabled: bool = False,
                  ball_enabled: bool = True,
                  complex_bump: bool = False,
-                 deterministic: bool = True):
+                 deterministic: bool = True,
+                 secondlearner: bool=False,):
         assert brick_cols >= 3, "The number of columns must be at least three."
         assert brick_rows >= 1, "The number of columns must be at least three."
         assert fire_enabled or ball_enabled, "Either fire or ball must be enabled."
@@ -144,7 +145,7 @@ class BreakoutConfiguration(object):
         self._ball_radius = ball_radius
         self._resolution_x = resolution_x
         self._resolution_y = resolution_y
-        self._horizon = horizon if horizon is not None else 300 * (self._brick_cols * self._brick_rows)
+        self._horizon = horizon if horizon is not None else 350 * (self._brick_cols * self._brick_rows)
         self._complex_bump = complex_bump
         self._deterministic = deterministic
         self._fire_enabled = fire_enabled
@@ -153,7 +154,7 @@ class BreakoutConfiguration(object):
         self.init_ball_speed_x = 2
         self.init_ball_speed_y = 5
         self.accy = 1.00
-
+        self.secondlearner=secondlearner
     @property
     def win_width(self):
         return int((self._brick_width + self._brick_xdistance) * self._brick_cols + self._brick_xdistance)
@@ -314,6 +315,8 @@ class BrickGrid(PygameDrawable):
                  brick_width: int,
                  brick_height: int,
                  brick_xdistance: int):
+        
+
         self.brick_cols = brick_cols
         self.brick_rows = brick_rows
         self.brick_width = brick_width
@@ -542,8 +545,11 @@ class BreakoutState(object):
         self.ball = Ball(self.config)
         self.paddle = Paddle(self.config)
         self.paddleup = Paddleup(self.config)
-        self.brick_grid = BrickGrid(self.config.brick_cols,
-                                    self.config.brick_rows,
+        bd1 =1
+        if self.config.secondlearner:
+            bd1=0
+        self.brick_grid = BrickGrid(bd1*self.config.brick_cols,
+                                    bd1*self.config.brick_rows,
                                     self.config.brick_width,
                                     self.config.brick_height,
                                     self.config.brick_xdistance)
@@ -753,7 +759,7 @@ class BreakoutState(object):
     def is_finished(self):
         end1 = self.ball.y > self.config.win_height - self.ball.radius
         end1up = self.ball.config.ball_enabled and self.ball.y < 12 + self.ball.radius
-        end2 = self.brick_grid.is_empty()
+        end2 = self.brick_grid.is_empty() and not self.config.secondlearner
         end3 = self._steps > self.config.horizon
         return end1 or end3 or end1up or end2 
 

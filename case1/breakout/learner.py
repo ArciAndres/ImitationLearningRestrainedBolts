@@ -15,7 +15,7 @@ from rl_algorithm.brains import Sarsa, QLearning
 from rl_algorithm.callbacks import ModelCheckpoint, plot_history
 from rl_algorithm.core import Agent, TrainEpisodeLogger
 from rl_algorithm.policies import EpsGreedyQPolicy, AutomataPolicy
-
+from rl_algorithm.temporal import TemporalGoalWrapperLogTraces
 
 class BreakoutLearnerWrapper(gym.Wrapper):
 
@@ -32,7 +32,7 @@ class BreakoutLearnerWrapper(gym.Wrapper):
 
 
 def make_env_from_dfa(config: BreakoutConfiguration, dfa: DFA,
-                      goal_reward: float = 1000.0,  reward_shaping: bool = True) -> gym.Env:
+                      goal_reward: float = 1000.0,  reward_shaping: bool = True, output_dir=None) -> gym.Env:
     """
     Make the Breakout environment.
 
@@ -62,7 +62,10 @@ def make_env_from_dfa(config: BreakoutConfiguration, dfa: DFA,
             obs["ball_y_speed"],
         ))
     )
-
+    if(output_dir is not None):
+        positive_traces_path = Path(output_dir, "learner_positive_traces.txt")
+        negative_traces_path = Path(output_dir, "learner_negative_traces.txt")
+        env = TemporalGoalWrapperLogTraces(env, extract_breakout_fluents, positive_traces_path, negative_traces_path)
     return env
 
 
@@ -73,8 +76,8 @@ def run_learner(arguments, configuration, dfa: pythomata.dfa.DFA):
 
     config = BreakoutConfiguration(brick_rows=arguments.rows, brick_cols=arguments.cols,
                                    brick_reward=arguments.brick_reward, step_reward=arguments.step_reward,
-                                   fire_enabled=False, ball_enabled=True)
-    env = make_env_from_dfa(config, dfa)
+                                   fire_enabled=False, ball_enabled=True,secondlearner=False)
+    env = make_env_from_dfa(config, dfa,output_dir=arguments.output_dir)
 
     np.random.seed(arguments.seed)
     env.seed(arguments.seed)

@@ -98,3 +98,13 @@ def learn_dfa(arguments) -> pythomata.dfa.DFA:
     new_dfa = new_dfa.complete()
     new_dfa = post_process_dfa(new_dfa)
     return new_dfa
+
+def learn2_dfa(arguments) -> pythomata.dfa.DFA:
+    positive_traces_filepath = os.path.join(arguments.output_dir, "learner_positive_traces.txt")
+    negative_traces_filepath = os.path.join(arguments.output_dir, "learner_negative_traces.txt")
+    dfa = inferrer.learn.learn(positive_traces_filepath, negative_traces_filepath, algorithm_id="lstar", separator=";")
+    dfa = cast(DFAWrapper, dfa)
+    new_dfa = from_inferrer_to_pythomata(dfa)
+    new_dfa = new_dfa.complete()
+    new_dfa = post_process_dfa(new_dfa)
+    return new_dfa
