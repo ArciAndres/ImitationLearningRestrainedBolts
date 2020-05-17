@@ -35,7 +35,7 @@ def parse_args():
     parser.add_argument("--expert-config", type=str, default="breakout/expert_config.yaml", help="RL configuration for the expert.")
     parser.add_argument("--learner-config", type=str, default="breakout/learner_config.yaml", help="RL configuration for the learner.")
     parser.add_argument("--learner2-config", type=str, default="breakout/learner2_config.yaml", help="RL configuration for the learner2.")
-    parser.add_argument("--case", type=int, default=2, help="case 1:1, case 2:2.")
+    parser.add_argument("--case", type=int, default=1, help="case 1:1, case 2:2.")
     return parser.parse_args()
 
 
