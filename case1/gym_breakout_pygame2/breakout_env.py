@@ -4,6 +4,12 @@
 The breakout game is based on CoderDojoSV/beginner-python's tutorial
 
 Luca Iocchi 2017
+
+
+#Modified by: David Esteban Imbajoa ruiz 2020
+#imbajoaruiz.1922212@studenti.uniroma1.it
+
+
 """
 import math
 import random

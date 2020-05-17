@@ -1,3 +1,6 @@
+#Modified by: David Esteban Imbajoa ruiz 2020
+#imbajoaruiz.1922212@studenti.uniroma1.it
+
 import shutil
 from pathlib import Path
 

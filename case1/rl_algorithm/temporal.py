@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+#Modified by: David Esteban Imbajoa ruiz 2020
+#imbajoaruiz.1922212@studenti.uniroma1.it
+
 """This package contains utilities for the temporal goal gym wrapper."""
 import logging
 from copy import deepcopy

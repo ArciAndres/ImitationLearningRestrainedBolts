@@ -1,3 +1,6 @@
+#Modified by: David Esteban Imbajoa ruiz 2020
+#imbajoaruiz.1922212@studenti.uniroma1.it
+
 import gym
 import numpy as np
 from flloat.semantics import PLInterpretation

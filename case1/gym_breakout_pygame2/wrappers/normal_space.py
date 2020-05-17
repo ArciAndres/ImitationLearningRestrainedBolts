@@ -4,6 +4,8 @@
 - BreakoutNMultiDiscrete
 - BreakoutNDiscrete
 """
+#Modified by: David Esteban Imbajoa ruiz 2020
+#imbajoaruiz.1922212@studenti.uniroma1.it
 
 from typing import Optional
 

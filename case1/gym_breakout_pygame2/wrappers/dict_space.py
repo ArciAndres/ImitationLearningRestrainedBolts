@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 """Breakout environments using a "dict" state space."""
+#Modified by: David Esteban Imbajoa ruiz 2020
+#imbajoaruiz.1922212@studenti.uniroma1.it
 
 from gym.spaces import Dict
 
