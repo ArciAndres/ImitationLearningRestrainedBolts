@@ -3,12 +3,18 @@
 
 Implementation of an additional study case from the paper ["Imitation Learning over Heterogeneous Agents with Restraining Bolts."](https://www.dis.uniroma1.it/~degiacom/papers/2020/icaps2020dfip.pdf)(De Giacomo et all, 2020)
 
-## New addition: **Breakout-Pong**
-
+# The environment: Breakout-Pong
 
 
 ![](./experiments/breakout-pong-output-5-columns/expert/videos/columns5-expert.gif)
 ![](./experiments/breakout-pong-output-5-columns/learner/videos/columns5-learner.gif)
+
+### Characteristics
+* GOAL: Remove all the brick columns.
+* There are as minumun 1 row and 3 columns of bricks
+* Expert on the left. Uses *fire* as action to destroy the bricks.
+* Learner on the right. Uses *bouncing ball* to dstroy the bricks.
+* Add an additional paddle in top to respond the ball hits.
 
 # Setup
 Tested in Ubuntu 18.04.
@@ -34,7 +40,7 @@ Set up virtual environment, and install additional dependencies. The repository 
 
 
 
-## Credits
+# Credits
 
 This code is strongly based in the repository from the reference paper:  
 https://github.com/whitemech/Imitation-Learning-over-Heterogeneous-Agents-with-Restraining-Bolts
