@@ -720,8 +720,11 @@ class BreakoutState(object):
                     ball.speed_x = 5
                     RandomEventGenerator.perturbate_ball_speed_after_paddleup_hit(self)
             #added by david init
-            self.score += self.config.brick_reward
-            reward += self.config.brick_reward
+            
+            if self.config.ball_enabled:
+                self.score += (self.config.brick_reward*15)
+                # print(self.config.brick_reward*15)
+                reward += (self.config.brick_reward*15)
             #added by david end
 
             ball.speed_y =  abs(ball.speed_y)

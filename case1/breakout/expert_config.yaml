@@ -1,7 +1,7 @@
-nb_steps: 200000
+nb_steps: 800000
 nb_exploration_steps: 10000
 min_eps: 0.01
-visualize_training: False
+visualize_training: false
 reward_shaping: true
 gamma: 0.99
 alpha: 0.1
