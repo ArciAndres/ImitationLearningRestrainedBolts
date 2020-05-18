@@ -24,7 +24,7 @@ logging.getLogger("rl_algorithm").setLevel(level=logging.INFO)
 
 def parse_args():
     parser = ArgumentParser()
-    parser.add_argument("--cols", type=int, default=3, help="Number of columns.")
+    parser.add_argument("--cols", type=int, default=4, help="Number of columns.")
     parser.add_argument("--rows", type=int, default=2, help="Number of rows.")
     parser.add_argument("--brick-reward", type=int, default=10, help="The reward for breaking a brick.")
     parser.add_argument("--step-reward", type=float, default=-0.01, help="The reward for breaking a brick.")
@@ -35,7 +35,7 @@ def parse_args():
     parser.add_argument("--expert-config", type=str, default="breakout/expert_config.yaml", help="RL configuration for the expert.")
     parser.add_argument("--learner-config", type=str, default="breakout/learner_config.yaml", help="RL configuration for the learner.")
     parser.add_argument("--learner2-config", type=str, default="breakout/learner2_config.yaml", help="RL configuration for the learner2.")
-    parser.add_argument("--case", type=int, default=1, help="case 1:1, case 2:2.")
+    parser.add_argument("--case", type=int, default=2, help="case 1:1, case 2:2.")
     return parser.parse_args()
 
 

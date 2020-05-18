@@ -109,7 +109,7 @@ class PygameViewer(_AbstractPygameViewer):
 
     def close(self):
         pygame.display.quit()
-        #pygame.quit()
+        pygame.quit()
 
 
 class BreakoutConfiguration(object):
