@@ -1,10 +1,9 @@
 # Imitation Learning over Heterogeneous Agents with Restraining Bolts 
-## Additional case study: Breakout-Pong
 
-Implementation of an additional study case from the paper ["Imitation Learning over Heterogeneous Agents with Restraining Bolts."](https://www.dis.uniroma1.it/~degiacom/papers/2020/icaps2020dfip.pdf)(De Giacomo et all, 2020)
+## Additional study case
+In Reinforcement Learning, it is a common problem to find it challenging to model an accurate reward function that leads to a desired behavior of the agents. Inverse Reinforcement Learning aims to extract a reward function from a set of actions and observation provided by an expert agent, which can be another trained model, a model-based approach or even a human. Imitation Learning is the technique where a learner attempts from such expert's behavior. In this repository, a Restraining Bolt approach is explored, described in detail on the paper ["Imitation Learning over Heterogeneous Agents with Restraining Bolts."](https://www.dis.uniroma1.it/~degiacom/papers/2020/icaps2020dfip.pdf) (De Giacomo et all, 2020).
 
 # The environment: Breakout-Pong
-
 
 ![](./experiments/breakout-pong-output-5-columns/expert/videos/columns5-expert.gif)
 ![](./experiments/breakout-pong-output-5-columns/learner/videos/columns5-learner.gif)
